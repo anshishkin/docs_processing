@@ -1,0 +1,216 @@
+[tool.poetry]
+name = "docs_processing"
+version = "0.1.0"
+description = ""
+authors = [" Andrei Shishkin <a.shishkin.msk@gmail.com>"]
+readme = "README.md"
+packages = [{include = "docs_processing"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.8.2"
+dependency-injector = "^4.41.0"
+aioboto3 = "^13.1.1"
+aio-pika = "^9.4.2"
+httpx = "^0.27.0"
+orjson = "^3.10.6"
+fastapi = "^0.112.0"
+prometheus-client = "^0.20.0"
+aiofiles = "^24.1.0"
+pydantic-settings = "^2.4.0"
+uvicorn = "^0.30.5"
+gunicorn = "^22.0.0"
+motor = "^3.5.1"
+matplotlib = "^3.9.0"
+chumpy = "0.66"
+python-multipart = "^0.0.9"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+black = "^24.2.0"
+ruff = "^0.3.2"
+mypy = "^1.9.0"
+
+
+[tool.ruff]
+src = ["docs_processing/"]
+line-length = 120
+# Python 3.11.
+target-version = "py311"
+# Group violations by containing file.
+output-format = "gitlab"
+# Avoid automatically removing unused imports in __init__.py files.
+lint.ignore-init-module-imports = true
+# Disable warinings on this tags.
+lint.task-tags = ["TODO"]
+# Django auto-generated migrations
+# Rules.
+lint.select = [
+    # pycodestyle.
+    "E", "W",
+    # Pyflakes.
+    "F",
+    # isort.
+    "I",
+    # pydocstyle.
+    "D",
+    # pyupgrade.
+    "UP",
+    # pep8-naming.
+    "N",
+    # flake8-2020.
+    "YTT",
+    # flake8-annotations.
+    "ANN",
+    # flake8-bandit.
+    "S",
+    # flake8-blind-except.
+    "BLE",
+    # flake8-boolean-trap.
+    "FBT",
+    # flake8-bugbear.
+    "B",
+    # flake8-builtins.
+    "A",
+    # flake8-comprehensions.
+    "C4",
+    # flake8-debugger.
+    "T10",
+    # flake8-errmsg.
+    "EM",
+    # flake8-implicit-str-concat.
+    "ISC",
+    # flake8-import-conventions.
+    "ICN",
+    # flake8-print.
+    "T20",
+    # flake8-pytest-style.
+    "PT",
+    # flake8-quotes.
+    "Q",
+    # flake8-return.
+    "RET",
+    # flake8-simplify.
+    "SIM",
+    # flake8-tidy-imports.
+    "TID",
+    # flake8-datetimez.
+    "DTZ",
+    # eradicate.
+    "ERA",
+    # pandas-vet.
+    "PD",
+    # pygrep-hooks.
+    "PGH",
+    # Pylint.
+    "PLC", "PLE", "PLR", "PLW",
+    # flake8-pie.
+    "PIE",
+    # Ruff-specific rules.
+    "RUF",
+]
+# Disable.
+lint.ignore = [
+    "ERA001",
+    "C408",
+    # Missing docstring in public module.
+    "D100",
+    # Missing docstring in public class.
+    "D101",
+    # Missing docstring in public method.
+    "D102",
+    # Missing docstring in public function.
+    "D103",
+    # Missing docstring in public package.
+    "D104",
+    # Missing docstring in public magic method.
+    "D105",
+    # Missing docstring in public nested class.
+    "D106",
+    # Missing docstring in __init__ method.
+    "D107",
+    # One-line docstring should fit on one line.
+    "D200",
+    # Multi-line docstring summary should start at the first line,
+    "D212",
+    # Missing type annotation for self in method.
+    "ANN101",
+    # Missing type annotation for cls in classmethod.
+    "ANN102",
+    # Dynamically typed expressions (typing.Any) are disallowed.
+    "ANN401",
+    # Shorted imports (numpy as np, etc).
+    "ICN001",
+    # Import from {module} instead: {names}
+    "UP035",
+    # Do not catch blind exception: `Exception`.
+    "BLE001",
+    # Possible SQL injection vector through string-based query construction.
+    "S608",
+    # Empty string in if.
+    "PLC1901",
+    # Weired safety issues
+    "S311",
+    "S603",
+    "S602",
+    "S301",
+    # Class attribure `id`
+    "A003",
+    # Format for function calls
+    "D415"
+]
+
+[tool.ruff.lint.isort]
+# Combines "as" imports on the same line.
+combine-as-imports = true
+# Place "closer" imports (fewer . characters, most local) before "further" imports.
+relative-imports-order = "closest-to-furthest"
+
+[tool.ruff.lint.flake8-tidy-imports]
+# Disallow all relative imports.
+ban-relative-imports = "all"
+
+[tool.ruff.lint.pep8-naming]
+# Allow Pydantic's `@validator` decorator to trigger class method treatment.
+classmethod-decorators = ["classmethod"]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 100
+
+[tool.ruff.lint.pydocstyle]
+# Use Google-style docstrings.
+convention = "google"
+
+[tool.ruff.lint.flake8-annotations]
+# Suppress ANN000-level violations for arguments matching the "dummy" variable regex (like _).
+suppress-dummy-args = true
+
+[tool.black]
+line-length = 120
+# Python 3.11
+target-version = ["py311"]
+# Colored output.
+color = true
+
+
+[tool.mypy]
+mypy_path = "document_post_processing"
+python_version = "3.11"
+ignore_missing_imports = true
+namespace_packages = true
+explicit_package_bases = true
+
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
+log_cli = false
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] [%(name)s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
